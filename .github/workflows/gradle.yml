@@ -2,7 +2,7 @@ name: UI Automation Web
 
 on:
   push:
-    branches: [ master ]
+    branches: [ test-workflows ]
 #  pull_request:
 #    branches: [ master ]
 
@@ -13,38 +13,38 @@ env:
   PROPS_FILE: 'src/test/resources/application.properties'
 
 jobs:
-  build-job:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Grant Permissions to gradlew
-        run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew clean
-
-  code-static-analyzer:
-    needs: build-job
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Grant Permissions to gradlew
-        run: chmod +x gradlew
-      - name: Code static analyzer
-        if: success()
-        run: ./gradlew clean check -x test
+#  build-job:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 1.8
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '8'
+#          distribution: 'adopt'
+#      - name: Grant Permissions to gradlew
+#        run: chmod +x gradlew
+#      - name: Build with Gradle
+#        run: ./gradlew clean
+#
+#  code-static-analyzer:
+#    needs: build-job
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 1.8
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '8'
+#          distribution: 'adopt'
+#      - name: Grant Permissions to gradlew
+#        run: chmod +x gradlew
+#      - name: Code static analyzer
+#        if: success()
+#        run: ./gradlew clean check -x test
 
   cucumber-dry-run:
-    needs: build-job
+#    needs: code-static-analyzer
     runs-on: ubuntu-latest
     steps:
       # install openvpn
@@ -54,6 +54,8 @@ jobs:
           sudo apt install -y openvpn openvpn-systemd-resolved
 
       # execute connect openvpn
+      - name: Set file permissions
+        run: chmod 600 .github/workflows/client.ovpn
       - name: Connect to VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
         with:
