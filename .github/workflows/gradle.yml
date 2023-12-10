@@ -98,8 +98,9 @@ jobs:
               exit 1
             fi
           done
-#      - name: Cucumber -dry-run
-#        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
+      - name: Cucumber -dry-run
+        if: success()
+        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
 
 #  test-execution-and-generate-report:
 #    needs: [ code-static-analyzer, cucumber-dry-run ]
