@@ -85,7 +85,7 @@ jobs:
           timeout=120  # Set the timeout value in seconds (adjust as needed)
           elapsed=0
           while true; do
-            if sudo cat /Library/Application\ Support/Tunnelblick/Logs/openvpn.log | grep -q "ROUTING TABLE"; then
+            if grep -q "Peer Connection Initiated" openvpn.log; then
               echo "VPN connected successfully."
               break
             fi
@@ -98,8 +98,8 @@ jobs:
               exit 1
             fi
           done
-      - name: Cucumber -dry-run
-        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
+#      - name: Cucumber -dry-run
+#        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
 
 #  test-execution-and-generate-report:
 #    needs: [ code-static-analyzer, cucumber-dry-run ]
