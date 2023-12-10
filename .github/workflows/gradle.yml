@@ -47,21 +47,6 @@ jobs:
 #    needs: code-static-analyzer
     runs-on: ubuntu-latest
     steps:
-      # install openvpn
-      - name: Install OpenVPN
-        run: |
-          sudo apt update
-          sudo apt install -y openvpn openvpn-systemd-resolved
-
-      # execute connect openvpn
-      - name: Set file permissions
-        run: chmod 600 .github/workflows/client.ovpn
-      - name: Connect to VPN
-        uses: "kota65535/github-openvpn-connect-action@v2"
-        with:
-          config_file: .github/workflows/client.ovpn
-          username: ${{ secrets.OVPN_USERNAME }}
-          password: ${{ secrets.OVPN_PASSWORD }}
       # install chrome & chromedriver
       - uses: browser-actions/setup-chrome@v1
         with:
@@ -81,6 +66,21 @@ jobs:
           distribution: 'adopt'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
+      # install openvpn
+      - name: Install OpenVPN
+        run: |
+          sudo apt update
+          sudo apt install -y openvpn openvpn-systemd-resolved
+
+      # execute connect openvpn
+      - name: Set file permissions
+        run: chmod 600 .github/workflows/client.ovpn
+      - name: Connect to VPN
+        uses: "kota65535/github-openvpn-connect-action@v2"
+        with:
+          config_file: .github/workflows/client.ovpn
+          username: ${{ secrets.OVPN_USERNAME }}
+          password: ${{ secrets.OVPN_PASSWORD }}
       - name: Cucumber -dry-run
         if: success()
         run: ./gradlew clean cucumber --cucumber-dry-run true
