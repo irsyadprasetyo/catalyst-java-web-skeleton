@@ -3,8 +3,8 @@ name: UI Automation Web
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
 
 permissions:
   contents: read
