@@ -20,20 +20,20 @@ service.endpoints:
     basePath: /
 
 account.data:
-  rmsBoom:
-    username: username@email.com
-    password: password
+  account1:
+    username: irsyad@machtwatch.co.id
+    password: voilaUF-55
     accountData:
       data1: data1
       data2: data2
-  pmTrxDashboard:
+  account2:
     username: username@email.com
     password: password
 
 account.services:
   acc1:
-    username: account@email.com
-    password: password
+    username: irsyad@machtwatch.co.id
+    password: voilaUF-55
     options:
       - Opt1
       - Opt2
