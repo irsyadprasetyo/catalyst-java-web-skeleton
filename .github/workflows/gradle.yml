@@ -82,16 +82,16 @@ jobs:
       - name: Wait for VPN connection
         id: wait_for_vpn
         run: |
-          timeout=180  # Set the timeout value in seconds (adjust as needed)
+          timeout=120  # Set the timeout value in seconds (adjust as needed)
           elapsed=0
           while true; do
-            if sudo openvpn-status | grep -q "ROUTING TABLE"; then
+            if sudo cat /Library/Application\ Support/Tunnelblick/Logs/openvpn.log | grep -q "ROUTING TABLE"; then
               echo "VPN connected successfully."
               break
             fi
           
-            sleep 15  # Adjust the sleep time based on your VPN connection time
-            elapsed=$((elapsed + 15))
+            sleep 10  # Adjust the sleep time based on your VPN connection time
+            elapsed=$((elapsed + 10))
           
             if [ "$elapsed" -ge "$timeout" ]; then
               echo "Timeout reached. VPN connection not established."
@@ -99,7 +99,6 @@ jobs:
             fi
           done
       - name: Cucumber -dry-run
-        if: success()
         run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
 
 #  test-execution-and-generate-report:
