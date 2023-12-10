@@ -71,8 +71,6 @@ jobs:
           sudo apt install -y openvpn openvpn-systemd-resolved
 
       # execute connect openvpn
-      - name: Set file permissions
-        run: chmod 600 .github/workflows/client.ovpn
       - name: Connect to VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
         with:
@@ -81,7 +79,7 @@ jobs:
           password: ${{ secrets.OVPN_PASSWORD }}
       - name: Cucumber -dry-run
         if: success()
-        run: ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @sample.login.1 --threads 1
+        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
 
 #  test-execution-and-generate-report:
 #    needs: [ code-static-analyzer, cucumber-dry-run ]
