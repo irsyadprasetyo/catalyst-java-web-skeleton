@@ -1,0 +1,93 @@
+plugins {
+    id 'java'
+    id 'se.thinkcode.cucumber-runner' version '0.0.8'
+    id "com.github.spacialcircumstances.gradle-cucumber-reporting" version "0.1.21"
+}
+
+group = 'com.catalyst.web.ui.automation'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring
+    implementation group: 'org.springframework', name: 'spring-tx', version: '5.2.4.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.2.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mustache', version: '2.2.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.2.5.RELEASE'
+    /*implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.4.RELEASE'*/
+    // ui
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.2'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '6.9.0'
+    implementation group: 'io.cucumber', name: 'cucumber-spring', version: '6.9.0'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '6.9.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    // core api
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '3.0.4'
+    implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '3.1.0'
+    implementation group: 'org.springframework', name: 'spring-test', version: '5.1.0.RELEASE'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.3'
+    implementation group: 'com.samskivert', name: 'jmustache', version: '1.13'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-test-autoconfigure'
+    implementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.2.0'
+    implementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    // ext
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '0.14', { exclude module: 'snakeyaml' }
+    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '5.7.1'
+    implementation group: 'org.apache.poi', name: 'poi', version: '3.9'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.1'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.3'
+    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.9'
+    implementation 'com.epam.reportportal:logger-java-log4j:5.1.4'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation group: 'com.epam.reportportal', name: 'agent-java-cucumber6', version: '5.1.2'
+    testImplementation group: 'tech.grasshopper', name: 'extentreports-cucumber6-adapter', version: '2.9.0'
+    testImplementation group: 'com.browserstack', name: 'browserstack-local-java', version: '1.0.3'
+    testImplementation 'org.postgresql:postgresql:42.2.9'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom implementation, testImplementation
+    }
+}
+
+cucumber {
+    if (this.hasProperty("env")) {
+        System.setProperty("spring.profiles.active", "$env")
+        println "using environment $env"
+    }
+    if (this.hasProperty("props")) {
+        System.setProperty("spring.config.name", "$props,application-$env")
+        println "using properties $props"
+    }
+
+    main = 'io.cucumber.core.cli.Main'
+    glue = 'classpath:com.catalyst.web.ui.automation'
+    plugin = ["json:build/cucumber.json", "html:build/result", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" +
+            "com.epam.reportportal.cucumber.StepReporter", "com.epam.reportportal.cucumber.ScenarioReporter"]
+}
+
+cucumberReports {
+    runWithJenkins = true
+    outputDir = file("$projectDir/build/generated")
+    buildId = System.getenv('BUILD_NUMBER').toString()
+    reports = files("$projectDir/build/cucumber.json")
+    trends = file("$projectDir/data/trends.json")
+    trendsLimit = 10
+}
+
+test {
+    testLogging.showStandardStreams = true
+}

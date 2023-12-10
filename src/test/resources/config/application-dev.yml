@@ -1,0 +1,39 @@
+spring:
+  profiles: dev
+  jpa:
+    open-in-view: false
+web.endpoints:
+  voila-homepage:
+    base: https://dev-voila-web.machtwatch.net
+  webPage:
+    base: https://base.com
+    paths:
+      login: /login
+  gudangada:
+    base: https://http://seller.gudangada.com
+    paths:
+      login: /home
+
+service.endpoints:
+  servicename:
+    baseUrl: https://url.com:port
+    basePath: /
+
+account.data:
+  rmsBoom:
+    username: username@email.com
+    password: password
+    accountData:
+      data1: data1
+      data2: data2
+  pmTrxDashboard:
+    username: username@email.com
+    password: password
+
+account.services:
+  acc1:
+    username: account@email.com
+    password: password
+    options:
+      - Opt1
+      - Opt2
