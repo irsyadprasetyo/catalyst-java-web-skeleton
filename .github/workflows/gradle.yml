@@ -81,10 +81,7 @@ jobs:
           password: ${{ secrets.OVPN_PASSWORD }}
       - name: Cucumber -dry-run
         if: success()
-        run: |
-#         ./gradlew clean cucumber --cucumber-dry-run true
-         echo ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @login--threads 1
-         ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @sample.feature --threads 1
+        run: ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @sample.login.1 --threads 1
 
 #  test-execution-and-generate-report:
 #    needs: [ code-static-analyzer, cucumber-dry-run ]
