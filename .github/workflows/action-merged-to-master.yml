@@ -14,6 +14,9 @@ jobs:
   test-execution-and-generate-report:
     runs-on: macos-latest
     steps:
+      # set timezone
+      - name: Set Timezone Asia Jakarta
+        run: systemsetup -settimezone Asia/Jakarta
       # install chrome & chromedriver
       - uses: browser-actions/setup-chrome@v1
         with:
