@@ -29,14 +29,6 @@ jobs:
     cucumber-dry-run:
       runs-on: macos-latest
       steps:
-        # install chrome & chromedriver
-        - uses: browser-actions/setup-chrome@v1
-          with:
-            chrome-version: 120
-        - uses: actions/checkout@v2
-        - uses: nanasess/setup-chromedriver@v2
-        - run: |
-            export DISPLAY=:99
         # checkout & run dry run
         - uses: actions/checkout@v3
         - name: Set up JDK 1.8
