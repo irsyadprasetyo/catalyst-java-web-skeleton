@@ -55,12 +55,12 @@ jobs:
               exit 1
             fi
           done
-      - name: Set up JDK 1.8
+      - name: Set up JDK 11
         if: always()
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
-          distribution: 'adopt'
+          java-version: '11'
+          distribution: 'corretto'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
       #  - uses: actions/checkout@v3
@@ -82,8 +82,8 @@ jobs:
         if: success()
         run: |
           cat ${{ env.PROPS_FILE }}
-          echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
-          ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
+          echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @login.feature --threads 2
+          ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @login.feature --threads 2
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
         with:
