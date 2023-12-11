@@ -2,7 +2,7 @@ name: Merge Master Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ reconfig ]
 
 permissions:
   contents: read
@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-      #      distribution: 'corretto'
+          distribution: 'corretto'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
       #  - uses: actions/checkout@v3
