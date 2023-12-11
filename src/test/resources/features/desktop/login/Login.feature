@@ -1,4 +1,4 @@
-@voila @desktop @login
+@voila @desktop @login.feature
 Feature: Sample Feature
 
   @sample.login.1
