@@ -1,0 +1,51 @@
+name: Pipeline Checker
+
+on:
+  pull_request:
+    branches: [ master ]
+
+permissions:
+  contents: read
+
+env:
+  PROPS_FILE: 'src/test/resources/application.properties'
+
+jobs:
+    code-static-analyzer:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Set up JDK 1.8
+          uses: actions/setup-java@v3
+          with:
+            java-version: '8'
+            distribution: 'adopt'
+        - name: Grant Permissions to gradlew
+          run: chmod +x gradlew
+        - name: Code static analyzer
+          if: success()
+          run: ./gradlew clean check -x test
+
+    cucumber-dry-run:
+      runs-on: macos-latest
+      steps:
+        # install chrome & chromedriver
+        - uses: browser-actions/setup-chrome@v1
+          with:
+            chrome-version: 120
+        - uses: actions/checkout@v2
+        - uses: nanasess/setup-chromedriver@v2
+        - run: |
+            export DISPLAY=:99
+        # checkout & run dry run
+        - uses: actions/checkout@v3
+        - name: Set up JDK 1.8
+          uses: actions/setup-java@v3
+          with:
+            java-version: '8'
+            distribution: 'adopt'
+        - name: Grant Permissions to gradlew
+          run: chmod +x gradlew
+        - name: Cucumber -dry-run
+          if: success()
+          run: ./gradlew clean cucumber --cucumber-dry-run true
