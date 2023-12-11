@@ -2,7 +2,7 @@ name: Merge Master Test
 
 on:
   push:
-    branches: [ reconfig ]
+    branches: [ master ]
 
 permissions:
   contents: read
