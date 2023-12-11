@@ -48,7 +48,7 @@ public class Chrome implements Browser {
 
   @Override
   public void setHeadless() {
-    chromeOptions.addArguments("--headless");
+    chromeOptions.addArguments("--headless=new");
   }
 
   @Override

@@ -14,6 +14,9 @@ jobs:
   test-execution-and-generate-report:
     runs-on: macos-latest
     steps:
+      # set timezone
+      - name: Set Timezone Asia Jakarta
+        run: systemsetup -settimezone Asia/Jakarta
       # install chrome & chromedriver
       - uses: browser-actions/setup-chrome@v1
         with:
@@ -39,7 +42,7 @@ jobs:
       - name: Wait for VPN connection
         id: wait_for_vpn
         run: |
-          timeout=120  # Set the timeout value in seconds (adjust as needed)
+          timeout=120  # Set the timeout (value in seconds)
           elapsed=0
           while true; do
             if grep -q "Peer Connection Initiated" openvpn.log; then
@@ -63,27 +66,27 @@ jobs:
           distribution: 'corretto'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
-    #  - uses: actions/checkout@v3
-    #  - name: 'BrowserStack Env Setup'
-    #    uses: 'browserstack/github-actions/setup-env@master'
-    #    with:
-    #      username: ${{ secrets.BROWSERSTACK_USERNAME }}
-    #      access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-    #  - name: Config properties file
-    #    run: |
-    #      sed -ie "
-    #        s|driver.web.use-remote=.*|driver.web.use-remote=true|g
-    #        s/runId/$GITHUB_RUN_ID/g
-    #        s/runnerName/$RUNNER_NAME/g
-    #        s/repos/$BROWSERSTACK_PROJECT_NAME/g
-    #        s/username/$BROWSERSTACK_USERNAME/g
-    #        s/accesskey/$BROWSERSTACK_ACCESS_KEY/g" src/test/resources/application.properties
+      #  - uses: actions/checkout@v3
+      #  - name: 'BrowserStack Env Setup'
+      #    uses: 'browserstack/github-actions/setup-env@master'
+      #    with:
+      #      username: ${{ secrets.BROWSERSTACK_USERNAME }}
+      #      access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      #  - name: Config properties file
+      #    run: |
+      #      sed -ie "
+      #        s|driver.web.use-remote=.*|driver.web.use-remote=true|g
+      #        s/runId/$GITHUB_RUN_ID/g
+      #        s/runnerName/$RUNNER_NAME/g
+      #        s/repos/$BROWSERSTACK_PROJECT_NAME/g
+      #        s/username/$BROWSERSTACK_USERNAME/g
+      #        s/accesskey/$BROWSERSTACK_ACCESS_KEY/g" src/test/resources/application.properties
       - name: Gradle run cucumber
-        if: always()
+        if: success()
         run: |
           cat ${{ env.PROPS_FILE }}
-          echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
-          ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
+          echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @login.feature --threads 2
+          ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @login.feature --threads 2
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
         with:
