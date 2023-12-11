@@ -55,12 +55,12 @@ jobs:
               exit 1
             fi
           done
-      - name: Set up JDK 11
-        if: success()
+      - name: Set up JDK 1.8
+        if: always()
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'corretto'
+          java-version: '8'
+          distribution: 'adopt'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
       #  - uses: actions/checkout@v3
@@ -79,7 +79,7 @@ jobs:
       #        s/username/$BROWSERSTACK_USERNAME/g
       #        s/accesskey/$BROWSERSTACK_ACCESS_KEY/g" src/test/resources/application.properties
       - name: Gradle run cucumber
-        if: always()
+        if: success()
         run: |
           cat ${{ env.PROPS_FILE }}
           echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
