@@ -14,8 +14,6 @@ jobs:
   test-execution-and-generate-report:
     runs-on: macos-latest
     steps:
-      - name: Set Timezone Asia Jakarta
-        run: systemsetup -settimezone Asia/Jakarta
       # install chrome & chromedriver
       - uses: browser-actions/setup-chrome@v1
         with:
@@ -41,7 +39,7 @@ jobs:
       - name: Wait for VPN connection
         id: wait_for_vpn
         run: |
-          timeout=120  # Set the timeout value in seconds (adjust as needed)
+          timeout=120  # Set the timeout (value in seconds)
           elapsed=0
           while true; do
             if grep -q "Peer Connection Initiated" openvpn.log; then
@@ -58,11 +56,11 @@ jobs:
             fi
           done
       - name: Set up JDK 11
-        if: always()
+        if: success()
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-      #   distribution: 'corretto'
+      #      distribution: 'corretto'
       - name: Grant Permissions to gradlew
         run: chmod +x gradlew
       #  - uses: actions/checkout@v3
@@ -81,11 +79,11 @@ jobs:
       #        s/username/$BROWSERSTACK_USERNAME/g
       #        s/accesskey/$BROWSERSTACK_ACCESS_KEY/g" src/test/resources/application.properties
       - name: Gradle run cucumber
-        if: success()
+        if: always()
         run: |
           cat ${{ env.PROPS_FILE }}
-          echo ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @login --threads 2
-          ./gradlew clean cucumber -Penv=staging -Pprops=application --tags @sample.feature --threads 2
+          echo ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
+          ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login --threads 2
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
         with:
