@@ -18,8 +18,8 @@ public class Chrome implements Browser {
   private final ChromeOptions chromeOptions = new ChromeOptions();
 
   public Chrome() {
-    System.setProperty("webdriver.chrome.driver",
-        System.getProperty("user.dir") + "/cft/chromedriver");
+    //    System.setProperty("webdriver.chrome.driver",
+    //        System.getProperty("user.dir") + "/cft/chromedriver");
     // chromeOptions.addArguments("--remote-allow-origin");
     setupWebdriverManager();
   }
