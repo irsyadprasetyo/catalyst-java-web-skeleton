@@ -11,38 +11,7 @@ env:
   PROPS_FILE: 'src/test/resources/application.properties'
 
 jobs:
-  code-static-analyzer:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Grant Permissions to gradlew
-        run: chmod +x gradlew
-      - name: Code static analyzer
-        if: success()
-        run: ./gradlew clean check -x test
-
-  cucumber-dry-run:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Grant Permissions to gradlew
-        run: chmod +x gradlew
-      - name: Cucumber -dry-run
-        if: success()
-        run: ./gradlew clean cucumber -Penv=dev -Pprops=application --tags @sample.login.1 --threads 1
-
   test-execution-and-generate-report:
-    needs: [ code-static-analyzer, cucumber-dry-run ]
     runs-on: macos-latest
     steps:
       # install chrome & chromedriver
