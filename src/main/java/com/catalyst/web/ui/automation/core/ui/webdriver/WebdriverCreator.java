@@ -135,7 +135,7 @@ public class WebdriverCreator {
 
   //should be added more in the future
   private WebDriver setupBrowser() {
-    //setup headless
+    //setup headlessMode
     if (driverProperties.getWeb().getHeadlessMode()) {
       this.browser.setHeadless();
     }
