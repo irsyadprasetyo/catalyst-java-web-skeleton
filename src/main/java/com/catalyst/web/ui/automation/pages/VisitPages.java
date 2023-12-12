@@ -14,5 +14,6 @@ public class VisitPages extends BasePageObject {
 
   public void visitVoilaHomepage() {
     openAt(webProperties.getEndpoints(URL_VOILA_HOMEPAGE));
+    waitABit(10);
   }
 }

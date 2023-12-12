@@ -9,7 +9,7 @@ public class VisitStepDef {
   @Autowired
   VisitPages visitPages;
 
-  @Given("user visit voila homepage")
+  @Given("desktop/mweb user visit voila homepage")
   public void userVisitVoilaHomepage() {
     visitPages.visitVoilaHomepage();
   }

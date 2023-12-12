@@ -1,9 +1,9 @@
 @voila @desktop @login.feature
-Feature: Sample Feature
+Feature: Sample Feature 1
 
   @sample.login.1
   Scenario: Verify user able to login with a valid username and password (1)
-    Given user visit voila homepage
+    Given desktop user visit voila homepage
     And user click "Sign In" button on sticky navbar
     And user fill username "irsyad@machtwatch.co.id" on login page
     And user fill password "voila-UF5" on login page
