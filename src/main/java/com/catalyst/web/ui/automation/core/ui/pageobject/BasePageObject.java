@@ -13,6 +13,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -758,8 +760,17 @@ public class BasePageObject<T extends WebElement> {
    */
   public Actions withActions() { return new Actions(getDriver()); }
 
-  public static boolean isloadComplete(WebDriver driver) {
-    return new WebDriverWait(driver, 30).until((ExpectedCondition<Boolean>) wd ->
+  /**
+   * Hover to element page
+   * @param By locator of the element
+   */
+  public void hoverTo(By by) {
+    WebElement ele = getDriver().findElement(by);
+    withActions().moveToElement(ele).perform();
+  }
+
+  public boolean isloadComplete() {
+    return new WebDriverWait(getDriver(), 15).until((ExpectedCondition<Boolean>) wd ->
             ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
   }
 }

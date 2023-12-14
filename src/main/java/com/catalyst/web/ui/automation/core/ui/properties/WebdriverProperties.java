@@ -16,8 +16,8 @@ public class WebdriverProperties {
   private Boolean startMaximized = false;
   //set the browser name
   private BrowserType browser;
-  private Integer implicitWait = 10;
-  private Integer explicitWait = 10;
+  private Integer implicitWait;
+  private Integer explicitWait;
 
   //headless
   private Boolean headlessMode = false;
