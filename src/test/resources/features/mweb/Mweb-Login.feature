@@ -1,4 +1,4 @@
-@voila @mweb @login.feature
+@voila @mweb
 Feature: Sample Feature 2
 
   @sample.login.1

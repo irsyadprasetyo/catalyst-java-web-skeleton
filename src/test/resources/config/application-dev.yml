@@ -9,15 +9,19 @@ web.endpoints:
     base: https://base.com
     paths:
       login: /login
-  gudangada:
-    base: https://http://seller.gudangada.com
-    paths:
-      login: /home
 
 service.endpoints:
   servicename:
     baseUrl: https://url.com:port
     basePath: /
+
+database.data:
+  xms:
+    host: voila-devstaging-postgresql.cluster-cmrlcrs1hacc.ap-southeast-1.rds.amazonaws.com
+    port: 5432
+    dbName: dev_voila
+    username: voila_qa
+    password: 5SG0XEQgcy1ZauG5
 
 account.data:
   rmsBoom:
