@@ -1,5 +1,6 @@
 package com.catalyst.web.ui.automation.stepdefinitions.desktop;
 
+import com.catalyst.web.ui.automation.core.ui.pageobject.PageObject;
 import com.catalyst.web.ui.automation.pages.desktop.HomePages;
 import com.catalyst.web.ui.automation.pages.desktop.LoginPages;
 import io.cucumber.java.en.Then;
@@ -14,8 +15,17 @@ public class HomepageStepDef {
   @Autowired
   LoginPages loginPages;
 
-  @Then("user will directed to voila homepage with {string}")
-  public void userWillDirectedToVoilaHomepage(String url) {
+  @Autowired
+  PageObject pageObject;
+
+  @Then("user see voila loader disappear")
+  public void userSeeVoilaLoaderDisappear() {
     Assert.assertTrue(loginPages.isLoaderVoilaDisappear());
+  }
+
+  @Then("user will directed to {string}")
+  public void userWillDirectedToVoilaHomepage(String url) {
+    pageObject.waitABit(1);
+    Assert.assertTrue(pageObject.getDriver().getCurrentUrl().contains(url));
   }
 }
