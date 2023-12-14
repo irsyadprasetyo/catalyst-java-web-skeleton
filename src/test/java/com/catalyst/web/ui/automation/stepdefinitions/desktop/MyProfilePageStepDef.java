@@ -8,7 +8,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.List;
 import java.util.Map;
-import javax.print.attribute.standard.MediaSize.Other;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
